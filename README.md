@@ -1,1 +1,1 @@
-# arduini_fading_rgb_led
+# arduino_fading_rgb_led
