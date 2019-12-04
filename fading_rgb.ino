@@ -1,14 +1,14 @@
 /*
-   * Arduino RGB LED with fading colors. Christmas decoration?
-   * Author: Josef Naslund (my first Arduino project)
-   * Date: 2019-11-28
-   * For this project you need:
-   *    -Arduino UNO compatible board
-   *    -At least one RGB LED (common Cathode, like Kjell 90718)
-   *    -Three resistors per LED (1x150 ohm for red pin, 2x100 ohm for green/blue)
-   *    -Some wires and a breadboard or solder
-   *    -Some diffuser for the LED, like household paper or some hot glue
-*/
+ * Arduino RGB LED with fading colors. Christmas decoration?
+ * Author: Josef Naslund (my first Arduino project)
+ * Date: 2019-11-28
+ * For this project you need:
+ *    -Arduino UNO compatible board
+ *    -At least one RGB LED (common Cathode, like Kjell 90718)
+ *    -Three resistors per LED (1x150 ohm for red pin, 2x100 ohm for green/blue)
+ *    -Some wires and a breadboard or solder
+ *    -Some diffuser for the LED, like household paper or some hot glue
+ */
 
 // These are PWM pins you can use: 11, 10, 9, 6, 5, 3
 int rgbPins[] = {11, 10, 9};
@@ -83,6 +83,14 @@ class Led{
         }
 };
 
+// Function to change color
+void change_colors(Led & l, int red, int green, int blue, int delaytimewithin){
+        l.set_target_color(red, green, blue);
+        while (!l.is_done()){
+            l.tick_target();
+            delay(delaytimewithin);
+        }
+}
 
 // the setup function runs once when you press reset or power the board
 void setup() {
@@ -93,73 +101,36 @@ void setup() {
     }
 }
 
+// bob will be our 'Led' object
+Led bob = Led(rgbPins[0], rgbPins[1], rgbPins[2]);
 
+
+// Color table
+int COLORS[][3] = {
+    { 255, 0, 0 }, // red
+    { 250, 255, 0 }, // yellow
+    { 0, 0, 255 },  // blue
+    { 0, 255, 0 }, // green
+
+    { 255, 0, 100 },  // cyan
+    { 0, 255, 120 },  // sea green
+    { 100, 100, 100 }  // white
+};
+
+// number of colors in above table
+int NO_COLORS = 7;
+
+// delay times
+int delay_between = 700;
+int delay_within = 25;
+
+// running loop
 void loop() {
-    int delay_between = 800;
-    int delay_within = 15;
-
-    // bob will be our 'Led' object
-    Led bob = Led(rgbPins[0], rgbPins[1], rgbPins[2]);
-
-    // Loop between theese colors
-    while (true){
-
-        // shift to red color
-        delay(delay_between);  
-        bob.set_target_color(255, 0, 0);
-        while (!bob.is_done()){
-            bob.tick_target();
-            delay(delay_within);
-        }
-
-        // shift to green 
+    for (int i = 0; i < NO_COLORS; ++i){
+        change_colors(bob, COLORS[i][0], COLORS[i][1], COLORS[i][2], delay_within);
         delay(delay_between);
-        bob.set_target_color(0, 255, 0);
-        while (!bob.is_done()){
-            bob.tick_target();
-            delay(delay_within);
-        }
-        
-        // shift to yellow
-        delay(delay_between);
-        bob.set_target_color(200, 50, 0);
-        while (!bob.is_done()){
-            bob.tick_target();
-            delay(delay_within);
-        }
-
-        // shift to blue
-        delay(delay_between);
-        bob.set_target_color(0, 0, 255);
-        while (!bob.is_done()){
-            bob.tick_target();
-            delay(delay_within);
-        }
-
-        
-        // shift to cyan
-        delay(delay_between);
-        bob.set_target_color(255, 0, 100);
-        while (!bob.is_done()){
-            bob.tick_target();
-            delay(delay_within);
-        }
-
-        // sea green
-        delay(delay_between);
-        bob.set_target_color(0, 200, 80);
-        while (!bob.is_done()){
-            bob.tick_target();
-            delay(delay_within);
-        }
-
-        // shift to white
-        delay(delay_between);
-        bob.set_target_color(80, 80, 80);
-        while (!bob.is_done()){
-            bob.tick_target();
-            delay(delay_within);
-        }
-        
     }
 }
+
+
+
