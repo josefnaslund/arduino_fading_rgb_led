@@ -14,6 +14,9 @@
 int rgbPins[] = {11, 10, 9};
 int rgbPinsCount = 3;
 
+int buttonPin = 2;
+
+//slask
 
 // 'Led' Class
 class Led{
@@ -83,22 +86,19 @@ class Led{
         }
 };
 
-// Function to change color
-void change_colors(Led & l, int red, int green, int blue, int delaytimewithin){
-        l.set_target_color(red, green, blue);
-        while (!l.is_done()){
-            l.tick_target();
-            delay(delaytimewithin);
-        }
-}
+
 
 // the setup function runs once when you press reset or power the board
 void setup() {
+    Serial.begin(9600);
+    Serial.println("setup()");
     // initialize digital pin LED_BUILTIN as an output.
     //pinMode(LED_BUILTIN, OUTPUT);
     for (int i = 0; i < rgbPinsCount; ++i){
         pinMode(rgbPins[i], OUTPUT);
     }
+
+    pinMode(buttonPin, INPUT);
 }
 
 // bob will be our 'Led' object
@@ -114,23 +114,73 @@ int COLORS[][3] = {
 
     { 255, 0, 100 },  // cyan
     { 0, 255, 120 },  // sea green
-    { 100, 100, 100 }  // white
+    { 255, 255, 255 }  // white
 };
 
 // number of colors in above table
 int NO_COLORS = 7;
 
-// delay times
-int delay_between = 700;
-int delay_within = 25;
+// delay timings
+int delay_between = 300;
+int delay_within = 10;
 
 // running loop
 void loop() {
+    Serial.println("Starting loop");
     for (int i = 0; i < NO_COLORS; ++i){
-        change_colors(bob, COLORS[i][0], COLORS[i][1], COLORS[i][2], delay_within);
+      Serial.print("i=");
+      Serial.println(i);
+
+        bob.set_target_color(COLORS[i][0], COLORS[i][1], COLORS[i][2]);
+        while (!bob.is_done()){
+            bob.tick_target();
+            delay(delay_within);
+
+            // TODO: listen for button press....
+            //bool buttonPressed = true; // temp
+            int buttonState = digitalRead(buttonPin);
+
+            if (buttonState == HIGH){
+                Serial.println("Button high");
+                int button_delay_between = 20;
+                int button_delay_within = 3;
+                while (digitalRead(buttonPin) == HIGH){
+                    Serial.println("Still high");
+                    for (int j = i ; j < NO_COLORS; ++j){
+                        i = j;
+                        bob.set_target_color(COLORS[i][0], COLORS[i][1], COLORS[i][2]);
+                        while (!bob.is_done()){
+                            bob.tick_target();
+                            delay(button_delay_within);
+                        }
+
+                        // aborting
+                        if (digitalRead(buttonPin) != HIGH){
+                            j = NO_COLORS; // end loop
+                            break;
+                        }
+                        delay(button_delay_between);
+
+                        bob.set_target_color(0, 0, 0);
+                        while (!bob.is_done()){
+                            bob.tick_target();
+                            delay(button_delay_within);
+                        }
+                       
+                        if (j >= NO_COLORS - 1){
+                          i = 0;
+                          delay(button_delay_between);
+                          Serial.println("Button still pressed - starting over on colors");
+                        }
+                    }
+               
+                }
+                Serial.println("Button low");
+               
+            }
+        }
+
+
         delay(delay_between);
     }
 }
-
-
-
