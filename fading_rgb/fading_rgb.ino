@@ -10,6 +10,7 @@
  *    -Some diffuser for the LED, like household paper or some hot glue
  */
 
+
 // These are PWM pins you can use: 11, 10, 9, 6, 5, 3
 int rgbPins[] = {11, 10, 9};
 int rgbPinsCount = 3;
@@ -34,6 +35,61 @@ int COLORS[][3] = {
 // number of colors in above table
 int NO_COLORS = 7;
 
+// 'LED' Class
+class LED{
+private:
+    int pin;
+    bool on;
+    bool waiting;
+    unsigned long time_last_update;
+    unsigned long time_on_time;
+    unsigned long time_interval;
+
+
+public:
+    // Do use this constructor
+    LED(int _pin, unsigned long _time_on_time, unsigned long _time_interval){
+        on = false;
+        waiting = true;
+        this->pin = _pin;
+        digitalWrite(pin, 0);
+        time_on_time= _time_on_time;
+        time_interval = _time_interval;
+        time_last_update = millis();
+    }
+
+
+
+    void tick(){
+        if (time_on_time > time_interval){
+            Serial.println("Error! time_on_time is bigger than time_interval");
+        }
+
+        unsigned long time_now = millis();
+
+        if ( waiting && !on && ((time_now - time_last_update) >= time_on_time) ){
+            //Serial.print("led on at ");
+            //Serial.println(time_now);
+            on = true;
+            waiting = false;
+            digitalWrite(pin, HIGH);
+            time_last_update = millis();
+        }
+
+        else if (on && ((time_now - time_last_update) >= time_on_time)){
+            //Serial.print("led off at ");
+            //Serial.println(time_now);
+            on = false;
+            digitalWrite(pin, LOW);
+            //time_last_update = millis();
+        }
+        
+        else if (!on && ((time_now - time_last_update) >= time_interval)){
+          waiting = true;
+        }
+
+    }
+};
 
 // 'RGB_LED' Class
 class RGB_LED{
@@ -160,15 +216,35 @@ unsigned long delay_within = 300;
 // bob will be our 'RGB_LED' object
 RGB_LED bob = RGB_LED(rgbPins[0], rgbPins[1], rgbPins[2], delay_between, delay_within);
 
+// alice is on board LED
+LED alice = LED(ledPins[0], 500, 1000);
+
+
+unsigned long start_time = millis();
+
+int button_count = 0;
+
+
 // running loop
 void loop() {
-    Serial.println("Starting loop");
+    //Serial.println("Starting loop");
+    if (button_count && millis() - start_time >= 10000){
+      --button_count;
+      start_time = millis();
+    }
+    
+    //if (button_count > 0)
     bob.tick();
+    alice.tick();
     int buttonState = digitalRead(buttonPin);
     if (buttonState == HIGH){
-        Serial.println("Button high");
+        Serial.print("Button high: ");
+        Serial.println(++button_count);
         while (digitalRead(buttonPin) == HIGH){
             ; // do nothing, pause
         }
+        start_time = millis();
+        Serial.println("Button low");
+
     }
 }
