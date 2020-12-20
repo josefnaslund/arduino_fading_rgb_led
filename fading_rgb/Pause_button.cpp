@@ -4,17 +4,30 @@
 
 void Pause_button::tick(){
     int buttonState = digitalRead(pin);
-    if (buttonState == HIGH){
-        Serial.print("Button high: ");
+    if (!activated && buttonState == HIGH){
+      activated = true;
+      time_first_pressed = millis();
+      return;
+    }
+    if (activated && ( (millis() - time_first_pressed) > 4) && (digitalRead(pin) == LOW)){
+      activated = false;
+      return;
+    }    
+    
+    if (activated && ( (millis() - time_first_pressed) > 4) && (digitalRead(pin) == HIGH)){
+        Serial.println("Pause button high: ");
         pressed = true;
-        Serial.println(++button_count);
+        ++button_count;
         while (digitalRead(pin) == HIGH){
             ; // do nothing, pause
         }
-        // unsigned long start_time = millis();
-        Serial.println("Button low");
-        pressed = false;
+        Serial.println(button_count);
 
+        // unsigned long start_time = millis();
+        Serial.println("Pause button low");
+        pressed = false;
+        activated = false;
+        return;
     }
 }
 

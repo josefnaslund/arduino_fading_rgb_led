@@ -6,11 +6,14 @@ class Button {
         int pin;
         bool pressed;
         int button_count;
+        bool activated;
+        unsigned long time_first_pressed;
 
 
 
     public:
         Button(int _pin);
+        virtual ~Button();
 
         // implement!
         virtual void tick();

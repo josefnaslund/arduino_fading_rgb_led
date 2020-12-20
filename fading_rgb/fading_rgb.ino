@@ -18,7 +18,7 @@
 int rgbPins[] = {11, 10, 9};
 int rgbPinsCount = 3;
 
-// regular LEDs
+// regular LEDsf
 int ledPins[] = {13, 12};
 int ledPinsCount = 2;
 
@@ -85,17 +85,6 @@ void loop() {
     //if (button_count > 0)
     bob.tick();
     alice.tick();
-    int buttonState = digitalRead(buttonPin);
-    if (buttonState == HIGH){
-        Serial.print("Button high: ");
-        Serial.println(++button_count);
-        while (digitalRead(buttonPin) == HIGH){
-            ; // do nothing, pause
-        }
-        start_time = millis();
-        Serial.println("Button low");
-
-    }
     alice2.tick();
     btn_Pause.tick();
 }
