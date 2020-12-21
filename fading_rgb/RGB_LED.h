@@ -1,8 +1,10 @@
 #ifndef RGB_LED_H
 #define RGB_LED_H
 
+#include "I_interaction.h"
+
 // 'RGB_LED' Class
-class RGB_LED{
+class RGB_LED : public I_interaction {
 private:
     int current_color;
     int red_pin, green_pin, blue_pin;
@@ -29,6 +31,8 @@ public:
     RGB_LED(int red_pin, int green_pin, int blue_pin, unsigned long _time_interval_in, unsigned long _time_interval_between);
 
     void tick();
+
+    void interact(const int& signal) override;
 };
 
 #endif

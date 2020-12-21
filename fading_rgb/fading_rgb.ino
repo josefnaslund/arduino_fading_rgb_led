@@ -61,7 +61,7 @@ unsigned long delay_between = 15;
 unsigned long delay_within = 300;
 
 // bob will be our 'RGB_LED' object
-RGB_LED bob = RGB_LED(rgbPins[0], rgbPins[1], rgbPins[2], delay_between, delay_within);
+I_interaction *bob = new RGB_LED(rgbPins[0], rgbPins[1], rgbPins[2], delay_between, delay_within);
 
 int button_count = 0;
 
@@ -70,7 +70,7 @@ LED alice2 = LED(ledPins[1], 1000, 2000);
 
 
 // button
-Pause_button btn_Pause = Pause_button(buttonPin);
+Pause_button btn_Pause = Pause_button(buttonPin, bob, 0);
 
 unsigned long start_time = millis();
 
@@ -83,7 +83,7 @@ void loop() {
     }
     
     //if (button_count > 0)
-    bob.tick();
+    (*bob).tick();
     alice.tick();
     alice2.tick();
     btn_Pause.tick();

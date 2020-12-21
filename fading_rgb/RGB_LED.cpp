@@ -84,3 +84,12 @@ void RGB_LED::tick(){
     }
 }
 
+void RGB_LED::interact(const int& signal){
+  Serial.println("Got an interact() signal");
+    if (signal == 0){
+        target_color[0] = 0;
+        target_color[1] = 0;
+        target_color[2] = 0;
+    }
+}
+
