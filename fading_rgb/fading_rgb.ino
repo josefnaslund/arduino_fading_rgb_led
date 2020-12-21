@@ -1,13 +1,20 @@
 /*
- * Arduino RGB LED with fading colors. Christmas decoration?
- * Author: Josef Naslund (my first Arduino project)
- * Date: 2019-11-28
+ * Learning microcontroller interaction. This project does... nothing useful
+ * really... An RGB LED shifting through colors while regular LEDs are blinking
+ * at different tempos. All while listening to a push button.
+ * Project uses C++ classes with interfaces for interacion between buttons and LEDs.
+ * Author: Josef Naslund
+ * Date: 2020-12
  * For this project you need:
- *    -Arduino UNO compatible board
- *    -At least one RGB LED (common Cathode, like Kjell 90718)
+ *    -Arduino UNO compatible board, or similar. 6 GPIO pins, three being PWM
+ *      capable.
+ *    -At least one RGB LED (common Cathode, like Kjell 90718 - discontinued)
  *    -Three resistors per LED (1x150 ohm for red pin, 2x100 ohm for green/blue)
+ *    -Resisors for regular LEDs.
+ *    -Pulldown resistor for switch.
+ *    -Switch.
  *    -Some wires and a breadboard or solder
- *    -Some diffuser for the LED, like household paper or some hot glue
+ *    -Some diffuser for the RGB LED, like thin paper or some hot glue
  */
 
 #include "LED.h"
