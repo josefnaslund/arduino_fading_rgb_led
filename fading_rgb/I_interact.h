@@ -16,7 +16,7 @@ protected:
 public:
     I_interact(I_interaction *receiver, const int& signal) : receiver(receiver), signal(signal) {};
     virtual ~I_interact() {};
-    
+
     void send_interaction() {receiver->interact(signal);};
 };
 

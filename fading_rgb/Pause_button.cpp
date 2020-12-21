@@ -4,13 +4,13 @@
 
 void Pause_button::tick(){
     int buttonState = digitalRead(pin);
-    
+
     if (!activated && buttonState == HIGH && ((millis() - time_last_activated) > 15) && ((millis() - time_pressed) > 250) ){
-      activated = true;
-      time_last_activated = millis();
-      return;
+        activated = true;
+        time_last_activated = millis();
+        return;
     }
-    
+
     if (activated && buttonState == LOW && ((millis() - time_last_activated) > 15)){
         activated = false;
         return;
@@ -19,8 +19,8 @@ void Pause_button::tick(){
     if (activated && buttonState == LOW && ((millis() - time_last_activated) <= 15)){
         return;
     }
-    
-    
+
+
     if (activated && ( (millis() - time_last_activated) > 10) && (digitalRead(pin) == HIGH)){
         Serial.println("Pause button high: ");
         pressed = true;
@@ -31,10 +31,10 @@ void Pause_button::tick(){
         }
         time_pressed = millis();
         Serial.println(button_count);
-        
+
         // receiver->interact(signal);
         send_interaction();
-        
+
         // unsigned long start_time = millis();
         Serial.println("Pause button low");
         pressed = false;

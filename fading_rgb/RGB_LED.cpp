@@ -68,7 +68,6 @@ RGB_LED::RGB_LED(int red_pin, int green_pin, int blue_pin, unsigned long _time_i
 }
 
 
-
 void RGB_LED::tick(){
     unsigned long time_now = millis();
     if ( !is_done() && ((time_now - time_last_update) >= time_interval_in) ){
@@ -85,11 +84,16 @@ void RGB_LED::tick(){
 }
 
 void RGB_LED::interact(const int& signal){
-  Serial.println("Got an interact() signal");
+    Serial.print("RGB_LED got an interact(");
+    Serial.print(signal);
+    Serial.println(") signal");
     if (signal == 0){
+        // send to black color, and retry last color
         target_color[0] = 0;
         target_color[1] = 0;
         target_color[2] = 0;
+        if (--current_color < 0)
+            current_color = NO_COLORS - 1;
     }
-}
 
+}
