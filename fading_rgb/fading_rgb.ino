@@ -71,7 +71,7 @@ unsigned long delay_within = 300;
 I_interaction *bob = new RGB_LED(rgbPins[0], rgbPins[1], rgbPins[2], delay_between, delay_within);
 
 // regular LEDs (so far...)
-LED alice = LED(ledPins[0], 50, 100);
+LED alice = LED(ledPins[0], 50, 200);
 LED alice2 = LED(ledPins[1], 1000, 2000);
 
 // button
