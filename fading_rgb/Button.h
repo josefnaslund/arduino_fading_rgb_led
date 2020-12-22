@@ -15,7 +15,7 @@ protected:
 
 
 public:
-    Button(int _pin, I_observer *receiver, const int& signal);
+    Button(int _pin, const int& signal);
     virtual ~Button();
 
     // implement!

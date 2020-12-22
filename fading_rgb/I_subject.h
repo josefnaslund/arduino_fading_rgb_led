@@ -10,14 +10,18 @@ class I_observer;
 
 class I_subject {
 protected:
-    I_observer *receiver;
+    I_observer **receiver_ptr;
+    int receiver_count;
     int signal;
 
 public:
-    I_subject(I_observer *receiver, const int& signal) : receiver(receiver), signal(signal) {};
-    virtual ~I_subject() {};
+    I_subject(const int& signal);
+    void add_observer(I_observer *receiver);
+    virtual ~I_subject();
 
-    void send_interaction() {receiver->interact(signal);};
+    virtual void tick() = 0;
+
+    void send_interaction(); 
 };
 
 #endif

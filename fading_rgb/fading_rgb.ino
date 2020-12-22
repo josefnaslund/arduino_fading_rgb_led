@@ -46,7 +46,30 @@ int COLORS[][3] = {
 // number of colors in above table
 int NO_COLORS = 7;
 
-// the setup function runs once when you press reset or power the board
+
+// delay timings
+unsigned long delay_between = 15;
+unsigned long delay_within = 300;
+
+
+// bob will be our 'RGB_LED' object
+I_observer *bob = new RGB_LED(rgbPins[0], rgbPins[1], rgbPins[2], delay_between, delay_within);
+
+
+// regular LEDs (so far...)
+LED alice = LED(ledPins[0], 50, 200);
+LED alice2 = LED(ledPins[1], 1000, 2000);
+
+
+// button
+auto btn_Pause = Pause_button(buttonPin, 0);
+
+
+
+unsigned long start_time = millis();
+
+
+
 void setup() {
     Serial.begin(9600);
     Serial.println("setup()");
@@ -61,23 +84,11 @@ void setup() {
     }
 
     pinMode(buttonPin, INPUT);
+    btn_Pause.add_observer(bob);
+    btn_Pause.add_observer(bob); // remove duplicates, just for testing 
+    btn_Pause.add_observer(bob); // remove duplicates, just for testing
 }
 
-// delay timings
-unsigned long delay_between = 15;
-unsigned long delay_within = 300;
-
-// bob will be our 'RGB_LED' object
-I_observer *bob = new RGB_LED(rgbPins[0], rgbPins[1], rgbPins[2], delay_between, delay_within);
-
-// regular LEDs (so far...)
-LED alice = LED(ledPins[0], 50, 200);
-LED alice2 = LED(ledPins[1], 1000, 2000);
-
-// button
-Pause_button btn_Pause = Pause_button(buttonPin, bob, 0);
-
-unsigned long start_time = millis();
 
 // running loop
 void loop() {
@@ -86,5 +97,4 @@ void loop() {
     alice.tick();
     alice2.tick();
     btn_Pause.tick();
-
 }
