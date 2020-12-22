@@ -1,9 +1,9 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "I_interact.h"
+#include "I_subject.h"
 
-class Button : public I_interact{
+class Button : public I_subject{
 protected:
     int pin;
     bool pressed;
@@ -15,7 +15,7 @@ protected:
 
 
 public:
-    Button(int _pin, I_interaction *receiver, const int& signal);
+    Button(int _pin, I_observer *receiver, const int& signal);
     virtual ~Button();
 
     // implement!

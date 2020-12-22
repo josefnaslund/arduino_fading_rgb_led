@@ -1,10 +1,10 @@
 #ifndef RGB_LED_H
 #define RGB_LED_H
 
-#include "I_interaction.h"
+#include "I_observer.h"
 
 // 'RGB_LED' Class
-class RGB_LED : public I_interaction {
+class RGB_LED : public I_observer {
 private:
     int current_color;
     int red_pin, green_pin, blue_pin;

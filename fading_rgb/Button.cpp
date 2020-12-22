@@ -2,7 +2,7 @@
 #include "Button.h"
 
 
-Button::Button(int _pin, I_interaction *receiver, const int& signal) : I_interact(receiver, signal){
+Button::Button(int _pin, I_observer *receiver, const int& signal) : I_subject(receiver, signal){
     pin = _pin;
     pressed = false;
     button_count = 0;

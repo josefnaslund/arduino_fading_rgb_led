@@ -5,7 +5,7 @@
 
 class Pause_button : public Button {
 public:
-    Pause_button(int _pin, I_interaction *receiver, const int& signal);
+    Pause_button(int _pin, I_observer *receiver, const int& signal);
     ~Pause_button() = default;
     void tick() override;
 };

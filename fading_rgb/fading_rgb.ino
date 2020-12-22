@@ -68,7 +68,7 @@ unsigned long delay_between = 15;
 unsigned long delay_within = 300;
 
 // bob will be our 'RGB_LED' object
-I_interaction *bob = new RGB_LED(rgbPins[0], rgbPins[1], rgbPins[2], delay_between, delay_within);
+I_observer *bob = new RGB_LED(rgbPins[0], rgbPins[1], rgbPins[2], delay_between, delay_within);
 
 // regular LEDs (so far...)
 LED alice = LED(ledPins[0], 50, 200);
