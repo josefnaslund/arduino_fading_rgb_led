@@ -62,7 +62,8 @@ LED alice2 = LED(ledPins[1], 1000, 2000);
 
 
 // button
-auto btn_Pause = Pause_button(buttonPin, 0);
+//auto btn_Pause = Pause_button(buttonPin, 0);
+auto btn = Button(buttonPin, 0);
 
 
 
@@ -84,9 +85,10 @@ void setup() {
     }
 
     pinMode(buttonPin, INPUT);
-    btn_Pause.add_observer(bob);
-    btn_Pause.add_observer(bob); // remove duplicates, just for testing 
-    btn_Pause.add_observer(bob); // remove duplicates, just for testing
+    //btn_Pause.add_observer(bob);
+    //btn_Pause.add_observer(bob); // remove duplicates, just for testing 
+    //btn_Pause.add_observer(bob); // remove duplicates, just for testing
+    btn.add_observer(bob);
 }
 
 
@@ -96,5 +98,6 @@ void loop() {
     (*bob).tick();
     alice.tick();
     alice2.tick();
-    btn_Pause.tick();
+    //btn_Pause.tick();
+    btn.tick();
 }
